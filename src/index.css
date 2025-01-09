@@ -1,0 +1,18 @@
+@import 'leaflet.markercluster/dist/MarkerCluster.css';
+@import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+
+:root {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: #242424;
+  width: 100%;
+}
+
+.map-body {
+  position: relative;
+  width: 100vw; 
+  height: 100vh; 
+  overflow: hidden; 
+}
+
