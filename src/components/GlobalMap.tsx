@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import PointLayer from './PointLayer';
 import HomeBaseLayer from './HomeBaseLayer';
 import regions from '../data/regions';
-import homeIcon from '../icons/home.webp'
+import homeIcon from '../icons/home.webp';
 
 const GlobalMap: React.FC = () => {
   const position: [number, number] = [0, 0];
@@ -18,6 +18,7 @@ const GlobalMap: React.FC = () => {
   const userPoints = useMemo(() => generatePlayerPoints(10000), []);
 
   const GridUpdater = () => {
+    
     const map = useMap();
 
     React.useEffect(() => {
@@ -52,37 +53,33 @@ const GlobalMap: React.FC = () => {
 
     const handleCenter = () => {
       if (isCenteredOnBase) {
-        navigate('/base'); 
+        navigate('/base');
       } else {
-        map.setView(homeBasePosition, 6); 
+        map.setView(homeBasePosition, 6);
       }
     };
 
     return (
       <button
-      onClick={handleCenter}
-      style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        backgroundColor: '#FFD700',
-        border: 'none',
-        borderRadius: '50%',
-        width: '60px',
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        zIndex: 1000,
+        onClick={handleCenter}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          backgroundColor: '#FFD700',
+          border: 'none',
+          borderRadius: '50%',
+          width: '60px',
+          height: '60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          zIndex: 1000,
         }}
       >
-      <img
-        src={homeIcon}
-        alt="Go to Home Base"
-        style={{ width: '32px', height: '32px' }}
-      />
+        <img src={homeIcon} alt="Go to Home Base" style={{ width: '32px', height: '32px' }} />
       </button>
     );
   };
@@ -98,32 +95,36 @@ const GlobalMap: React.FC = () => {
       style={{ height: '100vh', width: '100vw' }}
     >
       <CenterButton />
-      <TileLayer url="/Mapnik/{z}/{x}/{y}.jpg" />
+      <TileLayer url="/test-two/Mapnik/{z}/{x}/{y}.jpg" />
 
-      {regions.map((region, index) => (
-        <React.Fragment key={index}>
-          <Polygon
-            positions={region.boundaries}
-            pathOptions={{
-              color: region.color,
-              weight: 2,
-            }}
-          />
-          {currentZoom >= 1 &&
-            currentZoom <= 5 &&
-            region.boundaries.map((line, i) => (
-              <Polyline
-                key={i}
-                positions={[line]}
+      {useMemo(
+        () =>
+          regions.map((region, index) => (
+            <React.Fragment key={index}>
+              <Polygon
+                positions={region.boundaries}
                 pathOptions={{
                   color: region.color,
-                  weight: 1,
-                  opacity: 0.2,
+                  weight: 2,
                 }}
               />
-            ))}
-        </React.Fragment>
-      ))}
+              {currentZoom >= 1 &&
+                currentZoom <= 5 &&
+                region.boundaries.map((line, i) => (
+                  <Polyline
+                    key={i}
+                    positions={[line]}
+                    pathOptions={{
+                      color: region.color,
+                      weight: 1,
+                      opacity: 0.2,
+                    }}
+                  />
+                ))}
+            </React.Fragment>
+          )),
+        [regions, currentZoom]
+      )}
 
       {currentZoom <= 2 ? (
         <HomeBaseLayer />
