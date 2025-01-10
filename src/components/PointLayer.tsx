@@ -3,7 +3,6 @@ import { Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 import defaultIconImage from '../icons/point.webp';
-import zoomedIconImage from '../icons/avatar.webp';
 
 interface UserPoint {
   id: number;
@@ -73,7 +72,7 @@ const PointLayer: React.FC<PointLayerProps> = ({ userPoints, currentZoom }) => {
             key={user.id}
             position={user.position}
             icon={L.icon({
-              iconUrl: zoomedIconImage,
+              iconUrl: `https://robohash.org/${user.id}`,
               iconSize: [20, 20],
               iconAnchor: [10, 10],
             })}
